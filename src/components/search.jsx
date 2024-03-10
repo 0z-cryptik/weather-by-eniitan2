@@ -1,17 +1,15 @@
 import { FaSearch } from "react-icons/fa";
 import { useList } from "../hooks/stateProvider";
 import { useRef } from "react";
-import axios from "axios";
-import { reqFunc } from "../functions/requestHandler";
 
 export const Search = () => {
   const {
     searchTerm,
     setSearchTerm,
-    setWeather,
     setLoading,
     setError,
-    setActiveCategory
+    setActiveCategory,
+    fetch
   } = useList();
 
   const text = useRef();
@@ -22,15 +20,7 @@ export const Search = () => {
     setLoading(true);
     setActiveCategory("");
     text.current.blur();
-
-    try {
-      const response = await axios.request(reqFunc(searchTerm));
-      setWeather(response.data);
-      setLoading(false);
-    } catch (error) {
-      setError(error);
-      setLoading(false);
-    }
+    fetch(searchTerm)
   };
 
   const onSearchchange = (e) => setSearchTerm(e.target.value);
