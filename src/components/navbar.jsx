@@ -1,18 +1,16 @@
 import { useList } from "../hooks/stateProvider";
-import axios from "axios";
 import ToggleButton from "react-toggle-button";
-import { reqFunc } from "../functions/requestHandler";
 
 export const NavBar = () => {
   const {
-    setWeather,
     activeCategory,
     setActiveCategory,
     setLoading,
     setSearchTerm,
     fahrenheit,
     setFahrenheit,
-    setError
+    setError,
+    fetch
   } = useList();
 
   const searchWeather = (place) => {
@@ -20,19 +18,7 @@ export const NavBar = () => {
     setError("");
     setLoading(true);
     setSearchTerm(place);
-
-    let clickFetch = async () => {
-      try {
-        const response = await axios.request(reqFunc(place));
-        setWeather(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    };
-
-    clickFetch();
+    fetch(place);
   };
 
   return (

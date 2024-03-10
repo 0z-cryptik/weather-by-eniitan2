@@ -9,52 +9,34 @@ const Forecast = ({ title, hours }) => {
     <div className="lg:w-[60%] md:w-[80%] w-[90%] mt-[2.5rem] md:mt-[5rem] mx-auto">
       <h1 className="border-b-2 md:text-2xl pb-2">{title}</h1>
       <section>
-        {Array.from({ length: hours }, (item, i) => (
-          <Card
-            key={i}
-            src={
-              weather.forecast.forecastday[0].hour[hour + i + 1].condition
-                .icon
-            }
-            condition={
-              weather.forecast.forecastday[0].hour[hour + i + 1].condition
-                .text
-            }
-            time={`${hour + i + 1}:00`}
-            deg={
-              fahrenheit
-                ? `${
-                    weather.forecast.forecastday[0].hour[hour + i + 1]
-                      .temp_f
-                  }`
-                : `${
-                    weather.forecast.forecastday[0].hour[hour + i + 1]
-                      .temp_c
-                  }`
-            }
-            cor={
-              weather.forecast.forecastday[0].hour[hour + i + 1]
-                .chance_of_rain
-            }
-            realFeel={
-              fahrenheit
-                ? `${
-                    weather.forecast.forecastday[0].hour[hour + i + 1]
-                      .feelslike_f
-                  }`
-                : `${
-                    weather.forecast.forecastday[0].hour[hour + i + 1]
-                      .feelslike_c
-                  }`
-            }
-            windSpeed={
-              weather.forecast.forecastday[0].hour[hour + i + 1].wind_kph
-            }
-            humidity={
-              weather.forecast.forecastday[0].hour[hour + i + 1].humidity
-            }
-          />
-        ))}
+        {Array.from({ length: hours }, (item, i) => {
+          const hourData =
+            weather?.forecast?.forecastday[0]?.hour[hour + i + 1] || null;
+
+          if (!hourData) {
+            return null;
+          }
+          
+          return (
+            <Card
+              key={i}
+              src={hourData.condition.icon}
+              condition={hourData.condition.text}
+              time={`${hour + i + 1}:00`}
+              deg={
+                fahrenheit ? `${hourData.temp_f}` : `${hourData.temp_c}`
+              }
+              cor={hourData.chance_of_rain}
+              realFeel={
+                fahrenheit
+                  ? `${hourData.feelslike_f}`
+                  : `${hourData.feelslike_c}`
+              }
+              windSpeed={hourData.wind_kph}
+              humidity={hourData.humidity}
+            />
+          );
+        })}
       </section>
     </div>
   );

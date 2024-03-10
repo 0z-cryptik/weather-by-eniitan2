@@ -9,7 +9,8 @@ export const DateComp = () => {
   }, []);
 
   const dateHandler = (date) => {
-    const dateObj = new Date(date);
+    //safari doesn't support YYYY-MM-DD
+    const dateObj = new Date(date.replace(/-/g, "/"));
     const year = dateObj.getFullYear();
     const day = dateObj.getDate();
     const dayOfWeek = dateObj.getDay();
