@@ -17,7 +17,7 @@ export const StateProvider = ({ children }) => {
   const reqFunc = (query) => {
     const weatherReq = {
       method: "GET",
-      url: "/forecast.json",
+      url: "https://weatherapi-com.p.rapidapi.com/forecast.json",
       params: {
         q: query,
         days: "3"
